@@ -1,42 +1,58 @@
 buildscript {
+    ext {
+        buildToolsVersion = "35.0.0"
+        minSdkVersion = 23
+        compileSdkVersion = 35
+        targetSdkVersion = 35
+        ndkVersion = "26.1.10909125"
+        kotlinVersion = "2.0.0"
+    }
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
-
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.1'
+        classpath("com.android.tools.build:gradle:8.7.2")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0")
     }
 }
 
 apply plugin: 'com.android.library'
 
-def safeExtGet(prop, fallback) {
-    rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
-}
-
-
 android {
-    compileSdkVersion safeExtGet("usbSerialPortCompiledSdkVersion", 28)
-    buildToolsVersion "28.0.3"
+    namespace "com.melihmucuk.reactnativeserialport"
+    compileSdkVersion 35
+    buildToolsVersion "35.0.0"
 
     defaultConfig {
-        minSdkVersion safeExtGet("usbSerialPortMinSdkVersion", 16)
-        targetSdkVersion safeExtGet("usbSerialPortTargetSdkVersion", 28)
+        minSdkVersion 23
+        targetSdkVersion 35
         versionCode 1
         versionName "1.0"
     }
-    lintOptions {
-        abortOnError false
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }
 
 repositories {
+    google()
     mavenCentral()
 }
 
 dependencies {
-    implementation 'com.google.guava:guava:31.1-jre'
     implementation 'com.facebook.react:react-native:+'
-    implementation 'com.github.felhr85:usbserial:6.1.0'
+    implementation 'com.github.mik3y:usb-serial-for-android:3.8.0'
 }
